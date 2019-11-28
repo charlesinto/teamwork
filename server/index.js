@@ -1,5 +1,5 @@
 import express from 'express';
-import socket from 'socket.io';
+// import socket from 'socket.io';
 import bodyParser from 'body-parser';
 import http from 'http';
 import authRoute from "./routes/authRoute";
@@ -16,11 +16,11 @@ app.use('/api/v1/auth', authRoute);
 
 let port = process.env.PORT || 5000;
 let server = http.createServer(app)
-let io = socket().listen(server);
-io.on('connection', (socket)=>{
-    console.log(`user connected, id: ${socket.id}`);
+// let io = socket().listen(server);
+// io.on('connection', (socket)=>{
+//     console.log(`user connected, id: ${socket.id}`);
    
-})
+// })
 
 server.listen(port,()=>{console.log(`server is listening on port ${port}`)});
 
