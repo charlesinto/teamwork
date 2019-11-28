@@ -20,7 +20,7 @@ describe('It should test all the end points', () => {
             done()
         }).catch((err) => {
             console.log('err', err)
-            done
+            done()
         })
     })
     after( function (done){
@@ -29,7 +29,7 @@ describe('It should test all the end points', () => {
             done()
         }).catch((err) => {
             console.log('err', err)
-            done
+            done()
         })
     })
     describe('it should create a new user',() => {
