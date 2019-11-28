@@ -29,3 +29,8 @@ export const userWithWrongPassword = {
 	"gender":"male",
 	"address":"123cvb"
 }
+
+export const newArticle = {
+	"title":"charles",
+	"article":"solomon"
+}

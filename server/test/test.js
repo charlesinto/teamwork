@@ -6,7 +6,7 @@ import chaiHttp from 'chai-http';
 // import path from 'path';
 // import bcrypt from 'bcrypt';
 import {executeQuery} from '../helper';
-import {newUser, userNoEmail, userWithWrongPassword} from '../model';
+import {newUser, userNoEmail, userWithWrongPassword, newArticle} from '../model';
 const should = chai.should();
 const expect = chai.expect;
 chai.use(chaiHttp);
@@ -15,7 +15,10 @@ describe('It should test all the end points', () => {
     before(function(done){
         let sql = `CREATE TABLE IF NOT EXISTS users(id serial primary key,firstname varchar(255) not null,lastname varchar(255) not null,email varchar(255) not null,password varchar(255) not null,
         gender varchar(50),jobrole varchar(50),department varchar(50),address varchar(150),
-        datecreated timestamp,updatedAt timestamp);`
+        datecreated timestamp,updatedAt timestamp);
+        CREATE TABLE IF NOT EXISTS article(id serial primary key,title varchar(255) not null,article varchar(255) not null,userid INTEGER not null,
+        datecreated timestamp,updatedAt timestamp);
+        `
         executeQuery(sql,[]).then(() => {
             done()
         }).catch((err) => {
@@ -24,7 +27,7 @@ describe('It should test all the end points', () => {
         })
     })
     after( function (done){
-        let sql = `DROP TABLE IF EXISTS users;`
+        let sql = `DROP TABLE IF EXISTS users;DROP TABLE IF EXISTS article;`
         executeQuery(sql,[]).then(() => {
             done()
         }).catch((err) => {
@@ -101,6 +104,80 @@ describe('It should test all the end points', () => {
                 expect(res).to.have.status(400);
                 expect(res.body).to.have.property('message');
                 done()
+            })
+        })
+
+    })
+
+    describe('it should test article endpoint',() => {
+        
+        it('it should new article ', (done) => {
+            chai.request(app).post('/api/v1/auth/signin').type('form').send(newUser).end((err,res) => {
+                expect(res).to.be.an('object');
+                expect(res).to.have.status(200);
+                const token = res.body.message.data.token
+                chai.request(app).post('/api/v1/article').type('form').set('token', token)
+                    .send(newArticle).end((err, res) => {
+                        expect(res).to.be.an('object');
+                        expect(res).to.have.status(201);
+                        expect(res.body).to.have.property('message');
+                        done()
+                    })
+            })
+        })
+        it('it should return unauthourized user when no token is present', (done) => {
+            chai.request(app).post('/api/v1/auth/signin').type('form').send(newUser).end((err,res) => {
+                expect(res).to.be.an('object');
+                expect(res).to.have.status(200);
+                chai.request(app).post('/api/v1/article').type('form')
+                    .send(newArticle).end((err, res) => {
+                        expect(res).to.be.an('object');
+                        expect(res).to.have.status(401);
+                        expect(res.body).to.have.property('message');
+                        done()
+                    })
+            })
+        })
+        it('it should return forbidden user when token is invalid', (done) => {
+            chai.request(app).post('/api/v1/auth/signin').type('form').send(newUser).end((err,res) => {
+                expect(res).to.be.an('object');
+                expect(res).to.have.status(200);
+                const token = 'hsiusniusisiusiusiunius'
+                chai.request(app).post('/api/v1/article').type('form').set('token', token)
+                    .send(newArticle).end((err, res) => {
+                        expect(res).to.be.an('object');
+                        expect(res).to.have.status(403);
+                        expect(res.body).to.have.property('message');
+                        done()
+                    })
+            })
+        })
+        it('it should not create article when there is no title params ', (done) => {
+            chai.request(app).post('/api/v1/auth/signin').type('form').send(newUser).end((err,res) => {
+                expect(res).to.be.an('object');
+                expect(res).to.have.status(200);
+                const token = res.body.message.data.token
+                chai.request(app).post('/api/v1/article').type('form').set('token', token)
+                    .send({}).end((err, res) => {
+                        expect(res).to.be.an('object');
+                        expect(res).to.have.status(400);
+                        expect(res.body).to.have.property('message');
+                        done()
+                    })
+            })
+        })
+        it('it should not create article when there is no article params', (done) => {
+            chai.request(app).post('/api/v1/auth/signin').type('form').send(newUser).end((err,res) => {
+                expect(res).to.be.an('object');
+                expect(res).to.have.status(200);
+                const token = res.body.message.data.token
+                chai.request(app).post('/api/v1/article').type('form').set('token', token)
+                    .send({title:'hshssu'}).end((err, res) => {
+                        expect(res).to.be.an('object');
+                        expect(res).to.have.status(400);
+                        expect(res.body).to.have.property('message');
+                        done()
+                    })
             })
         })
     })
