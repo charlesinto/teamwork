@@ -18,3 +18,14 @@ export const userNoEmail = {
 	"gender":"male",
 	"address":"123cvb"
 }
+
+export const userWithWrongPassword = {
+	"password": "xxxx",
+	"email": "c@ex.com",
+	"firstname": "charles",
+	"lastname":"chibuike",
+	"jobRole":"writer",
+	"department":"logistics",
+	"gender":"male",
+	"address":"123cvb"
+}
