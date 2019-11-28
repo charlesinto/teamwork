@@ -1,4 +1,5 @@
 import Validator from "validator";
+import jwt from "jsonwebtoken";
 
 class Auth{
     validateEmailandPassword(req, res, next){
@@ -53,6 +54,26 @@ class Auth{
             })
         }
         next()
+    }
+    validateToken(req, res, next){
+        let key = process.env.SECRET_KEY || 'brillianceisevenlydistributed';
+        const bearerHeader = req.body.token || req.headers['token'];
+        if (!bearerHeader){
+            return res.status(401).send({
+                message: 'Unauthorized user'
+            });
+        } else if(typeof bearerHeader !== undefined){
+            jwt.verify(bearerHeader, key,(err, authData) => {
+                if(err) {
+                    return res.status(403).send({
+                        message: "Forbidden access"
+                    });
+                }
+              req.user = authData;
+              next();
+            })
+            
+        }
     }
 }
 

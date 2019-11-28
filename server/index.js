@@ -3,6 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import http from 'http';
 import authRoute from "./routes/authRoute";
+import articleRoute from "./routes/articleRoute";
 import path from 'path';
 import "dotenv/config";
 
@@ -13,6 +14,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/api/v1/auth', authRoute);
+app.use('/api/v1/article', articleRoute)
+
 
 let port = process.env.PORT || 5000;
 let server = http.createServer(app)
