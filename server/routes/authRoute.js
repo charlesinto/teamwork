@@ -1,10 +1,10 @@
 import express from "express";
 import AuthMiddleware from "../middleware/Auth";
-import AuthController from "../controller/AuthController";
+import {createUserWithEmailandPassword} from "../controller/AuthController";
 const router = express.Router()
 
 router.post('/create-user', AuthMiddleware.validateEmailandPassword, 
-    AuthMiddleware.validateRequestParams,AuthController.createUserWithEmailandPassword )
+    AuthMiddleware.validateRequestParams,createUserWithEmailandPassword )
 
 
 export default router;
