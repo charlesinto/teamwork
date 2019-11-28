@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engineStrict" : true,
+  "engines": {
+    "node": "11.11.0",
+    "npm": "6.11.3"
+  },
   "scripts": {
     "start:dev": "set NODE_ENV=DEVELOPMENT&& nodemon ./server/index.js --exec babel-node --require dotenv/config",
     "start": "set NODE_ENV=PRODUCTION&& npm run build && node ./dist/index.js",
