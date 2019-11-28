@@ -18,12 +18,18 @@ describe('It should test all the end points', () => {
         datecreated timestamp,updatedAt timestamp);`
         executeQuery(sql,[]).then(() => {
             done()
+        }).catch((err) => {
+            console.log('err', err)
+            done
         })
     })
-    after( (done) => {
+    after( function (done){
         let sql = `DROP TABLE IF EXISTS users;`
         executeQuery(sql,[]).then(() => {
             done()
+        }).catch((err) => {
+            console.log('err', err)
+            done
         })
     })
     describe('it should create a new user',() => {
