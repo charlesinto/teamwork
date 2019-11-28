@@ -11,7 +11,7 @@
   "scripts": {
     "start:dev": "set NODE_ENV=DEVELOPMENT&& nodemon ./server/index.js --exec babel-node --require dotenv/config",
     "start": "set NODE_ENV=PRODUCTION&& npm run build && node ./dist/index.js",
-    "build": "babel server -d dist --require dotenv/config",
+    "build": "babel server -d dist ",
     "test": "set NODE_ENV=TEST&& nyc mocha server/test/test.js --no-deprecation --compilers js:babel-core/register --timeout 20000 --exit",
     "coverage": "nyc --reporter=lcov --reporter=text-lcov npm test",
     "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls"
