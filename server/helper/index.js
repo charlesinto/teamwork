@@ -31,7 +31,6 @@ export const trimWhiteSpace = (obj) => {
 * @author: charles
 */
 const connectToDb = () => {
-    console.log('pg o', pool, jwt)
     return new Promise((resolve, reject) => {
         pool.connect((err, client, done) => {
             if (err) {
