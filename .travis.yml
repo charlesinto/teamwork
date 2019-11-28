@@ -5,5 +5,7 @@ install:
   - npm install
 services:
   - postgresql
+addons:
+  postgresql: "12"
 script: npm run coverage
 after_success: npm run coveralls
