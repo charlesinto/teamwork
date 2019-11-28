@@ -6,7 +6,7 @@ import chaiHttp from 'chai-http';
 // import path from 'path';
 // import bcrypt from 'bcrypt';
 import {executeQuery} from '../helper';
-import {newUser, userNoEmail} from '../model';
+import {newUser, userNoEmail, userWithWrongPassword} from '../model';
 const should = chai.should();
 const expect = chai.expect;
 chai.use(chaiHttp);
@@ -36,8 +36,7 @@ describe('It should test all the end points', () => {
         
         it('response should be an object', (done) => {
             chai.request(app).post('/api/v1/auth/create-user').type('form').send(newUser).end((err,res) => {
-                if(err)
-                    return console.log(err)
+                
                 expect(res).to.be.an('object');
                 expect(res).to.have.status(201);
                 expect(res.body.message).to.have.property('data');
@@ -48,8 +47,7 @@ describe('It should test all the end points', () => {
         })
         it('it should fail for creating the same user', (done) => {
             chai.request(app).post('/api/v1/auth/create-user').type('form').send(newUser).end((err,res) => {
-                if(err)
-                    return console.log(err)
+        
                 expect(res).to.be.an('object');
                 expect(res).to.have.status(406);
                 expect(res.body).to.have.property('message');
@@ -63,8 +61,42 @@ describe('It should test all the end points', () => {
         
         it('response should be an object', (done) => {
             chai.request(app).post('/api/v1/auth/create-user').type('form').send(userNoEmail).end((err,res) => {
-                if(err)
-                    return console.log(err)
+                
+                expect(res).to.be.an('object');
+                expect(res).to.have.status(400);
+                expect(res.body).to.have.property('message');
+                done()
+            })
+        })
+    })
+    describe('it should login a user',() => {
+        
+        it('response should be an object', (done) => {
+            chai.request(app).post('/api/v1/auth/signin').type('form').send(newUser).end((err,res) => {
+                
+                expect(res).to.be.an('object');
+                expect(res).to.have.status(200);
+                // expect(res.body).to.have.property('status');
+                done()
+            })
+        })
+    })
+    describe('it should not login a user with incorrect password',() => {
+        
+        it('response should be an object', (done) => {
+            chai.request(app).post('/api/v1/auth/signin').type('form').send(userWithWrongPassword).end((err,res) => {
+                
+                expect(res).to.be.an('object');
+                expect(res).to.have.status(404);
+                expect(res.body).to.have.property('message');
+                done()
+            })
+        })
+    })
+    describe('it should not login a user with no email',() => {
+        
+        it('response should be an object', (done) => {
+            chai.request(app).post('/api/v1/auth/signin').type('form').send({password:'1234'}).end((err,res) => {
                 expect(res).to.be.an('object');
                 expect(res).to.have.status(400);
                 expect(res.body).to.have.property('message');
