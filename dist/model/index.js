@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var adminUser = exports.adminUser = {
 	"email": "admin@ex.com",
+	"username": "admin@ex.com",
 	"password": "1234",
 	"firstname": "charles",
 	"lastname": "chibuike",
@@ -18,6 +19,7 @@ var adminUser = exports.adminUser = {
 var newUser = exports.newUser = {
 	"email": "c@ex.com",
 	"password": "1234",
+	"username": "admin@ex.com",
 	"firstname": "charles",
 	"lastname": "chibuike",
 	"jobRole": "writer",
@@ -66,6 +68,7 @@ var comment = exports.comment = {
 var userWithWrongPassword = exports.userWithWrongPassword = {
 	"password": "xxxx",
 	"email": "c@ex.com",
+	"username": "admin@ex.com",
 	"firstname": "charles",
 	"lastname": "chibuike",
 	"jobRole": "writer",

@@ -20,6 +20,6 @@ var router = _express2.default.Router();
 
 router.post('/create-user', _Auth2.default.validateEmailandPassword, _Auth2.default.validateRequestParams, _Auth2.default.validateToken, _Auth2.default.validateIsAdmin, _AuthController.createUserWithEmailandPassword);
 
-router.post('/signin', _Auth2.default.validateEmailandPassword, _AuthController.signInWithEmailandPassword);
+router.post('/signin', _Auth2.default.validateUsernameAndPassword, _AuthController.signInWithUsernameandPassword);
 
 exports.default = router;

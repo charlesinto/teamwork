@@ -54,14 +54,35 @@ var Auth = function () {
             next();
         }
     }, {
+        key: "validateUsernameAndPassword",
+        value: function validateUsernameAndPassword(req, res, next) {
+            var _req$body2 = req.body,
+                username = _req$body2.username,
+                password = _req$body2.password;
+
+            console.log(username, password);
+            if (!username || username.trim() === '') {
+
+                return res.status(400).send({
+                    message: 'username and password is required'
+                });
+            }
+            if (!password || password.trim() === '') {
+                return res.status(400).send({
+                    message: 'username and password is required'
+                });
+            }
+            return next();
+        }
+    }, {
         key: "validateRequestParams",
         value: function validateRequestParams(req, res, next) {
-            var _req$body2 = req.body,
-                firstname = _req$body2.firstname,
-                lastname = _req$body2.lastname,
-                jobRole = _req$body2.jobRole,
-                department = _req$body2.department,
-                address = _req$body2.address;
+            var _req$body3 = req.body,
+                firstname = _req$body3.firstname,
+                lastname = _req$body3.lastname,
+                jobRole = _req$body3.jobRole,
+                department = _req$body3.department,
+                address = _req$body3.address;
 
             if (!firstname || firstname.trim() === '') {
                 return res.status(400).send({

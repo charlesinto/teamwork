@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.signInWithEmailandPassword = exports.createUserWithEmailandPassword = undefined;
+exports.signInWithUsernameandPassword = exports.createUserWithEmailandPassword = undefined;
 
 var _helper = require("../helper");
 
@@ -51,13 +51,13 @@ var createUserWithEmailandPassword = exports.createUserWithEmailandPassword = as
     }
 };
 
-var signInWithEmailandPassword = exports.signInWithEmailandPassword = async function signInWithEmailandPassword(req, res) {
+var signInWithUsernameandPassword = exports.signInWithUsernameandPassword = async function signInWithUsernameandPassword(req, res) {
     try {
         var request = (0, _helper.trimWhiteSpace)(req.body);
-        var email = request.email,
+        var username = request.username,
             password = request.password;
 
-        var result = await (0, _helper.executeQuery)((0, _Auth.signInUser)(), [email]);
+        var result = await (0, _helper.executeQuery)((0, _Auth.signInUser)(), [username]);
         if (result.rowCount > 0) {
             if (!_bcrypt2.default.compareSync(password, result.rows[0].password)) {
                 return (0, _helper.displayMessage)(res, 404, {
@@ -76,7 +76,7 @@ var signInWithEmailandPassword = exports.signInWithEmailandPassword = async func
                     message: 'Login successful',
                     token: token,
                     "userId": result.rows[0].id,
-                    email: email
+                    email: username
                 }
             });
         }

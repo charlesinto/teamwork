@@ -1,5 +1,6 @@
 export const adminUser = {
 	"email": "admin@ex.com",
+	"username":"admin@ex.com",
 	"password": "1234",
 	"firstname": "charles",
 	"lastname":"chibuike",
@@ -13,6 +14,7 @@ export const adminUser = {
 export const newUser = {
 	"email": "c@ex.com",
 	"password": "1234",
+	"username":"c@ex.com",
 	"firstname": "charles",
 	"lastname":"chibuike",
 	"jobRole":"writer",
@@ -61,6 +63,7 @@ export const comment = {
 export const userWithWrongPassword = {
 	"password": "xxxx",
 	"email": "c@ex.com",
+	"username":"admin@ex.com",
 	"firstname": "charles",
 	"lastname":"chibuike",
 	"jobRole":"writer",
