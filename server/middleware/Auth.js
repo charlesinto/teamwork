@@ -26,6 +26,24 @@ class Auth{
         }
         next()
     }
+
+    validateUsernameAndPassword(req, res, next){
+        const {body: {username, password}} = req
+        console.log(username, password)
+        if((!username || username.trim() === '')){
+            
+            return res.status(400).send({
+                message:'username and password is required'
+            })
+        }
+        if(!password || password.trim() === ''){
+            return res.status(400).send({
+                message:'username and password is required'
+            })
+        }
+        return next()
+    }
+
     validateRequestParams(req, res, next){
         const {body: {firstname, lastname, jobRole, department, address}} = req
         if(!firstname || firstname.trim() === ''){
@@ -55,6 +73,7 @@ class Auth{
         }
         next()
     }
+    
     validateToken(req, res, next){
         let key = process.env.SECRET_KEY || 'brillianceisevenlydistributed';
         const bearerHeader = req.body.token || req.headers['token'];

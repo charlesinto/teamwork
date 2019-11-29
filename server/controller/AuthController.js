@@ -33,11 +33,11 @@ export const createUserWithEmailandPassword = async (req,res) => {
 
 }
 
-export const signInWithEmailandPassword = async (req, res) => {
+export const signInWithUsernameandPassword = async (req, res) => {
     try{
         const request = trimWhiteSpace(req.body)
-        const {email, password} = request;
-        const result = await executeQuery(signInUser(), [email])
+        const {username, password} = request;
+        const result = await executeQuery(signInUser(), [username])
         if(result.rowCount > 0){
             if(!Bcrypt.compareSync(password,result.rows[0].password)){
                 return displayMessage(res, 404, {
@@ -56,7 +56,7 @@ export const signInWithEmailandPassword = async (req, res) => {
                     message: 'Login successful',
                     token,
                     "userId": result.rows[0].id,
-                    email
+                    email: username
                 }
             })
         }

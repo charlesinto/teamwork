@@ -45,7 +45,7 @@ describe('It should test all the end points', () => {
         
         it('response should be an object', (done) => {
             chai.request(app).post('/api/v1/auth/signin').type('form').send(adminUser).end((err, res) =>{
-                
+               
                 const token = res.body.message.data.token
                 chai.request(app).post('/api/v1/auth/create-user').type('form').set('token', token)
                     .send(newUser).end((err,res) => {
@@ -126,7 +126,7 @@ describe('It should test all the end points', () => {
             })
         })
     })
-    describe('it should not login a user with no email',() => {
+    describe('it should not login a user with no username',() => {
         
         it('response should be an object', (done) => {
             chai.request(app).post('/api/v1/auth/signin').type('form').send({password:'1234'}).end((err,res) => {
