@@ -75,6 +75,14 @@ class Auth{
             
         }
     }
+    validateIsAdmin(req, res, next){
+        if(req.user.role === 'admin'){
+           return next()
+        }
+        return res.status(403).send({
+            message: "Forbidden access"
+        });
+    }
 }
 
 export default new Auth();
