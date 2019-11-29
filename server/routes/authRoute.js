@@ -4,7 +4,8 @@ import {createUserWithEmailandPassword, signInWithEmailandPassword} from "../con
 const router = express.Router()
 
 router.post('/create-user', AuthMiddleware.validateEmailandPassword, 
-    AuthMiddleware.validateRequestParams,createUserWithEmailandPassword )
+    AuthMiddleware.validateRequestParams,AuthMiddleware.validateToken,AuthMiddleware.validateIsAdmin,
+     createUserWithEmailandPassword )
 
 router.post('/signin', AuthMiddleware.validateEmailandPassword, signInWithEmailandPassword)
 

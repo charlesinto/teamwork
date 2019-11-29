@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import http from 'http';
 import authRoute from "./routes/authRoute";
 import articleRoute from "./routes/articleRoute";
+import feedRoute from "./routes/feedRoute";
 import path from 'path';
 import "dotenv/config";
 
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/article', articleRoute)
+app.use('/api/v1/feed', feedRoute)
 
 
 let port = process.env.PORT || 5000;

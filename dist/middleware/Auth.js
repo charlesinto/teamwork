@@ -1,14 +1,20 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _validator = require('validator');
+var _validator = require("validator");
 
 var _validator2 = _interopRequireDefault(_validator);
+
+var _jsonwebtoken = require("jsonwebtoken");
+
+var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20,7 +26,7 @@ var Auth = function () {
     }
 
     _createClass(Auth, [{
-        key: 'validateEmailandPassword',
+        key: "validateEmailandPassword",
         value: function validateEmailandPassword(req, res, next) {
             var _req$body = req.body,
                 email = _req$body.email,
@@ -48,7 +54,7 @@ var Auth = function () {
             next();
         }
     }, {
-        key: 'validateRequestParams',
+        key: "validateRequestParams",
         value: function validateRequestParams(req, res, next) {
             var _req$body2 = req.body,
                 firstname = _req$body2.firstname,
@@ -83,6 +89,37 @@ var Auth = function () {
                 });
             }
             next();
+        }
+    }, {
+        key: "validateToken",
+        value: function validateToken(req, res, next) {
+            var key = process.env.SECRET_KEY || 'brillianceisevenlydistributed';
+            var bearerHeader = req.body.token || req.headers['token'];
+            if (!bearerHeader) {
+                return res.status(401).send({
+                    message: 'Unauthorized user'
+                });
+            } else if ((typeof bearerHeader === "undefined" ? "undefined" : _typeof(bearerHeader)) !== undefined) {
+                _jsonwebtoken2.default.verify(bearerHeader, key, function (err, authData) {
+                    if (err) {
+                        return res.status(403).send({
+                            message: "Forbidden access"
+                        });
+                    }
+                    req.user = authData;
+                    next();
+                });
+            }
+        }
+    }, {
+        key: "validateIsAdmin",
+        value: function validateIsAdmin(req, res, next) {
+            if (req.user.role === 'admin') {
+                return next();
+            }
+            return res.status(403).send({
+                message: "Forbidden access"
+            });
         }
     }]);
 
